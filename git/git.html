@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="David Gayerie" name="author" />
+<meta content="Tutoriel pour démarrer avec Git" name="description" />
+<meta content="git, github, gestionnaire de sources, SCM" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Git &mdash; m2i - Git</title>
+
+
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom_rtd_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/translations.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Recherche" href="../search.html" />
+    <link rel="prev" title="m2i - Git" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> m2i - Git
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Recherche dans les pages" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Git</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#execution-de-git">Exécution de Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#initialisation-d-un-depot">Initialisation d’un dépôt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#principes-de-git">Principes de Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#suivi-des-modifications-du-depot">Suivi des modifications du dépôt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#validation-des-modifications">Validation des modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utilisation-d-un-depot-distant">Utilisation d’un dépôt distant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exclusion-de-fichiers">Exclusion de fichiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#les-etiquettes">Les étiquettes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#les-branches">Les branches</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#revoir-le-contenu-d-une-branche">Revoir le contenu d’une branche</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deplacer-le-point-de-depart-d-une-branche">Déplacer le point de départ d’une branche</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reecrire-le-contenu-d-une-branche">Réécrire le contenu d’une branche</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#la-recherche-par-dichotomie">La recherche par dichotomie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">Références</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">m2i - Git</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Git</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="../index.html" class="btn btn-neutral float-left" title="m2i - Git" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Précédent</a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="git">
+<h1>Git<a class="headerlink" href="#git" title="Lien permanent vers cette rubrique"></a></h1>
+<p><a class="reference external" href="https://git-scm.com">Git</a> est un gestionnaire de contrôle de source (<em>Source Control Management</em> ou
+SCM). Il permet de partager et de suivre efficacement l’évolution des fichiers
+sources d’un projet. Un système de contrôle de version tel que <a class="reference external" href="https://git-scm.com">Git</a> est
+fondamental pour permettre à une équipe de travailler collectivement sur une
+base de code commune.</p>
+<p><a class="reference external" href="https://git-scm.com">Git</a> est conçu avant tout pour gérer des fichiers en mode texte.</p>
+<p><a class="reference external" href="https://git-scm.com">Git</a> a été originellement développé par Linus Torvalds pour gérer les
+évolutions du code source du noyau Linux.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Lien permanent vers cette rubrique"></a></h2>
+<p><a class="reference external" href="https://git-scm.com">Git</a> est disponible dans tous les dépôts de logiciels des distributions
+Linux. Pour une distribution basée sur Debian (Ubuntu, Mint…), il
+suffit de taper en ligne de commande :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>git
+</pre></div>
+</div>
+<p>Pour Mac, vous pouvez télécharger l’installeur à l’adresse :
+<a class="reference external" href="https://git-scm.com/download/mac">https://git-scm.com/download/mac</a></p>
+<p>Pour Windows, vous pouvez télécharger l’installeur à l’adresse :
+<a class="reference external" href="https://git-scm.com/download/win">https://git-scm.com/download/win</a></p>
+<p><a class="reference external" href="https://git-scm.com">Git</a> est un outil en ligne de commande. Sous Windows, l’installation de <a class="reference external" href="https://git-scm.com">Git</a>
+s’accompagne de l’utilitaire <cite>git-bash</cite> qui donne accès à un terminal Bash
+suffisant pour utiliser <a class="reference external" href="https://git-scm.com">Git</a>.</p>
+<p>Pour la suite de la formation, nous utiliserons la ligne de commande qui permet
+de bien comprendre le fonctionnement de <a class="reference external" href="https://git-scm.com">Git</a>. Cependant, de nombreuses applications
+permettent d’utiliser <a class="reference external" href="https://git-scm.com">Git</a> dans un environnement graphique. Les IDE comme
+Eclipse ou IntelliJ intègrent un client graphique <a class="reference external" href="https://git-scm.com">Git</a>. Vous pouvez également
+consulter <a class="reference external" href="https://git-scm.com/downloads/guis">une liste des clients graphiques disponibles</a>
+directement sur le site de <a class="reference external" href="https://git-scm.com">Git</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference external" href="https://git-scm.com">Git</a> fournit son propre utilitaire graphique grâce à la commande :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>gui
+</pre></div>
+</div>
+</div>
+</section>
+<section id="execution-de-git">
+<h2>Exécution de Git<a class="headerlink" href="#execution-de-git" title="Lien permanent vers cette rubrique"></a></h2>
+<p>Le programme <cite>git</cite> attend une commande à lancer ainsi que d’éventuelles options
+pour cette commande.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>&lt;commande&gt;<span class="w"> </span><span class="o">[</span>options<span class="o">]</span>
+</pre></div>
+</div>
+<p>Quelques exemples de commandes <cite>git</cite> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log
+git<span class="w"> </span>add<span class="w"> </span>mon_fichier.txt
+git<span class="w"> </span>status<span class="w"> </span>-s
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;un message de commit&quot;</span>
+</pre></div>
+</div>
+<p>Pour exécuter une commande <cite>git</cite>, vous devez être positionné dans un répertoire
+ou un sous-répertoire géré par <a class="reference external" href="https://git-scm.com">Git</a> sinon vous obtiendrez un message d’erreur de
+la forme :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fatal</span><span class="p">:</span> <span class="n">ni</span> <span class="n">ceci</span> <span class="n">ni</span> <span class="n">aucun</span> <span class="n">de</span> <span class="n">ses</span> <span class="n">répertoires</span> <span class="n">parents</span> <span class="p">(</span><span class="n">jusqu</span><span class="s1">&#39;au point de montage /) n&#39;</span><span class="n">est</span> <span class="n">un</span> <span class="n">dépôt</span> <span class="n">git</span>
+</pre></div>
+</div>
+<div class="exercice admonition">
+<p class="admonition-title">projet Git local</p>
+<p>La commande <cite>help</cite> permet d’obtenir de l’aide sur n’importe quelle autre commande.
+Essayez les commandes d’aide :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span><span class="nb">help</span><span class="w"> </span>init
+git<span class="w"> </span><span class="nb">help</span><span class="w"> </span>log
+git<span class="w"> </span><span class="nb">help</span><span class="w"> </span><span class="nb">help</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Lien permanent vers cette rubrique"></a></h2>
+<p>Avant votre première utilisation, il est conseillé de configurer <a class="reference external" href="https://git-scm.com">Git</a> en
+indiquant l’identité que vous utiliserez. Pour cela vous devez définir
+votre nom et votre email avec les commandes :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;VOTRE_NOM&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;VOTRE_EMAIL&quot;</span>
+</pre></div>
+</div>
+<p>Si vous avez un éditeur de texte préféré, vous pouvez également donner
+son chemin avec la commande</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.editor<span class="w"> </span><span class="s2">&quot;CHEMIN DE L&#39;EDITEUR&quot;</span>
+</pre></div>
+</div>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">config</span></code> permet de modifier la configuration de votre
+projet ou la configuration globale si l’option <code class="docutils literal notranslate"><span class="pre">--global</span></code> est
+présente. La configuration globale est sauvegardée dans le fichier
+<code class="docutils literal notranslate"><span class="pre">~/.gitconfig</span></code> et pour chaque projet dans le fichier <code class="docutils literal notranslate"><span class="pre">.git/config</span></code>.
+Vous pouvez vérifier le contenu de votre configuration grâce à la
+commande :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>-l
+</pre></div>
+</div>
+</section>
+<section id="initialisation-d-un-depot">
+<h2>Initialisation d’un dépôt<a class="headerlink" href="#initialisation-d-un-depot" title="Lien permanent vers cette rubrique"></a></h2>
+<p>Si vous partez d’un répertoire dont vous désirez suivre les changements
+avec <a class="reference external" href="https://git-scm.com">Git</a>, vous initialisez votre dépôt local en vous positionnant dans
+le répertoire souhaité et tapant la commande :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init
+</pre></div>
+</div>
+<p>Cette commande crée un répertoire caché <code class="docutils literal notranslate"><span class="pre">.git</span></code> qui va contenir
+l’ensemble des informations permettant à <a class="reference external" href="https://git-scm.com">Git</a> de suivre les
+modifications.</p>
+<p>Si vous disposez d’une URL d’un dépôt <a class="reference external" href="https://git-scm.com">Git</a>, vous pouvez le cloner pour
+commencer à modifier son contenu localement grâce à la commande :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>&lt;URL&gt;<span class="w"> </span><span class="o">[</span>&lt;répertoire&gt;<span class="o">]</span>
+</pre></div>
+</div>
+<p>Vous pouvez éventuellement désigner le répertoire à créer qui contiendra
+le résultat du clone sinon <a class="reference external" href="https://git-scm.com">Git</a> le déduit du contenu de l’URL.</p>
+</section>
+<section id="principes-de-git">
+<h2>Principes de Git<a class="headerlink" href="#principes-de-git" title="Lien permanent vers cette rubrique"></a></h2>
+<p><a class="reference external" href="https://git-scm.com">Git</a> est un gestionnaire de contrôle de source distribué. Cela signifie que <a class="reference external" href="https://git-scm.com">Git</a>
+n’a pas besoin d’un serveur centralisé pour stocker un référentiel de vos sources.
+Un dépôt <a class="reference external" href="https://git-scm.com">Git</a> est dupliqué intégralement sur toutes machines sur lesquelles il
+est cloné. Donc, chaque utilisateur possède, à un instant donné, l’intégralité de
+l’historique des modifications d’un projet.</p>
+<p>Cela offre la possibilité d’usages multiples :</p>
+<ul class="simple">
+<li><p>Vous n’avez pas besoin systématiquement d’une connexion Internet pour travailler
+sur vos sources.</p></li>
+<li><p>Les sources peuvent être dupliquées (<em>forkées</em>) dans différents dépôts sur
+le réseau.</p></li>
+<li><p>Il n’est même pas nécessaire d’héberger les sources sur un serveur distant.
+Vous pouvez utiliser <a class="reference external" href="https://git-scm.com">Git</a> uniquement sur votre machine pour un usage local
+et non partagé.</p></li>
+</ul>
+<p><a class="reference external" href="https://git-scm.com">Git</a> a pour fonction de suivre les modifications de vos fichiers par rapport
+à un dépôt.</p>
+<p>Les fichiers que vous modifiez constituent <strong>le répertoire de travail</strong> (<em>working directory</em>
+ou <em>working tree</em>) et ne constituent pas le dépôt <a class="reference external" href="https://git-scm.com">Git</a> proprement dit. Comme il
+s’agit d’un système distribué, chaque utilisateur dispose néanmoins d’une copie
+complète du dépôt qui est stocké dans le répertoire <code class="file docutils literal notranslate"><span class="pre">.git</span></code>. Il s’agit du
+<strong>dépôt local</strong>. Il peut exister un ou plusieurs <strong>dépôts distants</strong>
+(<em>remote repositories</em>) avec lesquels il faudra synchroniser de temps en temps
+le dépôt local pour obtenir les dernières modifications des autres utilisateurs
+et pousser vos propres modifications.</p>
+<p>Les commandes les plus courantes pour gérer le répertoire de travail, le dépôt
+local et le(s) dépôt(s) distant(s) sont:</p>
+<dl class="simple">
+<dt>init</dt><dd><p>permet de créer un dépôt local vide à partir d’un répertoire de travail.</p>
+</dd>
+<dt>clone</dt><dd><p>permet de créer une copie complète d’un dépôt local et d’un répertoire
+de travail à partir d’un dépôt distant.</p>
+</dd>
+<dt>commit</dt><dd><p>permet de propager les modifications d’un répertoire de travail vers le
+dépôt local.</p>
+</dd>
+<dt>push</dt><dd><p>permet de propager les modifications d’un dépôt local vers un dépôt distant.</p>
+</dd>
+<dt>fetch</dt><dd><p>permet de récupérer les dernières modifications d’un dépôt distant dans un
+dépôt local.</p>
+</dd>
+<dt>pull</dt><dd><p>permet de récupérer les dernières modifications d’un dépôt distant dans un
+dépôt local et dans le répertoire de travail.</p>
+</dd>
+</dl>
+<p><a class="reference external" href="https://git-scm.com">Git</a> ne suit pas les modifications de chaque fichier individuellement, il regroupe
+les modifications dans la notion de <strong>commit</strong>.</p>
+<p>Un commit représente une modification complète de l’arborescence de fichiers.
+Un commit peut donc contenir des modifications d’un ou plusieurs fichiers existants,
+la création de nouveaux fichiers ou la suppression de fichiers existants.</p>
+<p>Un commit est identifié par un numéro de hachage unique. Un commit possède une
+date, un auteur et un message.</p>
+<p>La commande <cite>log</cite> permet de lister les commits d’un dépôt:</p>
+<div class="admonition tip">
+<p class="admonition-title">Astuce</p>
+<p>Il n’est pas rare de passer un identifiant de commit comme paramètre à une
+commande <cite>git</cite>. Comme les identifiants de commit, sont très longs, il est
+possible de passer uniquement les premiers caractères.</p>
+<p>Par exemple, le commit 16f45462ad6ac25c711a3a84d318f2ab5061cd72 peut être
+abrégé en 16f454.</p>
+</div>
+</section>
+<section id="suivi-des-modifications-du-depot">
+<h2>Suivi des modifications du dépôt<a class="headerlink" href="#suivi-des-modifications-du-depot" title="Lien permanent vers cette rubrique"></a></h2>
+<p>À tout moment, vous pouvez utiliser la commande</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>status
+</pre></div>
+</div>
+<p>Cette commande vous permet de connaître l’état des fichiers qui ont
+évolué par rapport à votre dépôt local.</p>
+<p>Pour <a class="reference external" href="https://git-scm.com">Git</a>, un fichier peut avoir quatre états :</p>
+<dl class="simple">
+<dt>Untracked (non suivi) :</dt><dd><p>Le fichier existe dans le répertoire de travail mais ne fait pas partie du
+dépôt local.</p>
+</dd>
+<dt>Unmodified (non modifié) :</dt><dd><p>Le fichier existe dans le répertoire de travail et dans le dépôt local et
+ces deux versions sont identiques. La commande <code class="docutils literal notranslate"><span class="pre">status</span></code> ignore les
+fichiers dans cet état.</p>
+</dd>
+<dt>Modified (modifié) :</dt><dd><p>Le fichier existe dans le répertoire de travail et dans le dépôt local
+mais ces deux versions ne sont pas identiques. Le fichier a été modifié
+(ou supprimé) par l’utilisateur.</p>
+</dd>
+<dt>Staged :</dt><dd><p>Le fichier existe dans le répertoire de travail et dans le dépôt local
+mais ces deux versions ne sont pas identiques. De plus l’utilisateur a
+ajouté les modifications à <strong>l’index</strong> (appelé également la <strong>staging
+area</strong>). Dans ce cas, elles seront incorporées au dépôt local au prochain
+commit.</p>
+</dd>
+</dl>
+<p><a class="reference external" href="https://git-scm.com">Git</a> ne connaît pas directement la notion de répertoire. Il ne suit que
+les fichiers et les liens symboliques. Un répertoire existe pour <a class="reference external" href="https://git-scm.com">Git</a> dès
+qu’il contient un fichier et, à l’opposé, un répertoire n’existe plus
+dès qu’il ne contient plus de fichier ou de sous répertoire contenant
+eux-mêmes des fichiers.</p>
+<p>Les commandes ci-dessous permettent de gérer les états d’un fichier :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>&lt;fichier/répertoire&gt;
+</pre></div>
+</div>
+<p>Permet d’ajouter les modifications d’un fichier à <strong>l’index</strong> (i.e. la <strong>staging
+area</strong>). Le fichier passe à l’état <strong>Staged</strong> s’il a été modifié dans le répertoire
+de travail (ou s’il s’agit d’un nouveau fichier), sinon cette commande est sans effet.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">add</span></code> ne doit pas être comprise comme une commande d’ajout
+de fichier mais bien comme l’ajout d’un ensemble de modifications pour le
+prochain commit.</p>
+<p>Il est d’ailleurs possible d’utiliser la commande <code class="docutils literal notranslate"><span class="pre">add</span></code> en mode patch
+en spécifiant le paramètre <code class="docutils literal notranslate"><span class="pre">--patch</span></code> ou simplement <code class="docutils literal notranslate"><span class="pre">-p</span></code>. Le mode patch
+permet de sélectionner une à une les modifications d’un fichier que vous
+souhaitez ajouter à l’index.</p>
+</div>
+<p>Si vous passer un répertoire à la commande <code class="docutils literal notranslate"><span class="pre">add</span></code>, toutes les modifications
+des fichiers de ce répertoire et de tous ses sous-répertoires sont ajoutées à
+l’index.</p>
+<p>Pour ajouter tous les fichiers modifiés dans l’index :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Pour ajouter tous les fichiers modifiés et tous les fichiers créés dans l’index :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>-A<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Pour supprimer un fichier et ajouter cette modification dans l’index :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rm<span class="w"> </span>&lt;fichier&gt;
+</pre></div>
+</div>
+<p>Le fichier passe à l’état <strong>Staged</strong> et est supprimé du répertoire de travail.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>À la place de la commande <code class="docutils literal notranslate"><span class="pre">rm</span></code>, on peut également taper :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>mon_fichier.txt
+git<span class="w"> </span>add<span class="w"> </span>mon_fichier.txt
+</pre></div>
+</div>
+</div>
+<p>Pour déplacer ou renommer un fichier et ajouter cette modification dans l’index :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>mv<span class="w"> </span>&lt;chemin<span class="w"> </span>du<span class="w"> </span>fichier&gt;<span class="w"> </span>&lt;nouveau<span class="w"> </span>chemin<span class="w"> </span>vers<span class="w"> </span>le<span class="w"> </span>fichier&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>À la place de la commande <code class="docutils literal notranslate"><span class="pre">mv</span></code>, on peut également taper :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>mv<span class="w"> </span>mon_fichier.txt<span class="w"> </span>mon_nouveau_nom.txt
+git<span class="w"> </span>add<span class="w"> </span>mon_nouveau_nom.txt
+</pre></div>
+</div>
+</div>
+<p>Pour retirer de l’index les modifications faites sur un fichier :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>--staged<span class="w"> </span>&lt;fichier/répertoire&gt;
+</pre></div>
+</div>
+<p>Les modifications dans l’espace de travail ne sont pas pour autant annulées.</p>
+<p>Pour annuler définitivement les modifications, il faut relancer la commande
+<code class="docutils literal notranslate"><span class="pre">restore</span></code> sans option :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>&lt;fichier/répertoire&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Historiquement, il est également possible d’utiliser la commande <code class="docutils literal notranslate"><span class="pre">checkout</span></code>
+pour produire le même effet :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>&lt;fichier/répertoire&gt;
+</pre></div>
+</div>
+</div>
+<p>Pour visualiser les différences entre les modifications du répertoire de travail
+et le dépôt local :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>&lt;fichier/répertoire&gt;
+</pre></div>
+</div>
+<p>Pour visualiser les différences entre les modifications de l’index et du dépôt local.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--staged<span class="w"> </span>&lt;fichier/répertoire&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">diff</span></code> permet également de comparer des commits entre eux.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>16f454<span class="w"> </span>e7e6f39
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Si vous utilisez un outil graphique de comparaison de fichiers comme
+<a class="reference external" href="https://meldmerge.org">meld</a>, vous pouvez utiliser la commande <code class="docutils literal notranslate"><span class="pre">difftool</span></code>
+pour voir les différences avec votre outil favori.</p>
+<p>Vous devez commencer par configurer le chemin vers l’exécutable :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>diff.tool<span class="w"> </span>&lt;chemin<span class="w"> </span>de<span class="w"> </span>l<span class="s1">&#39;executable de l&#39;</span>outil&gt;
+</pre></div>
+</div>
+<p>Vous pouvez ensuite utiliser la commande <code class="docutils literal notranslate"><span class="pre">difftool</span></code> pour visualiser
+les modifications d’un fichier :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>difftool<span class="w"> </span>&lt;fichier/répertoire&gt;
+git<span class="w"> </span>difftool<span class="w"> </span>--staged<span class="w"> </span>&lt;fichier/répertoire&gt;
+</pre></div>
+</div>
+<p>Vous pouvez voir la totalité des fichiers modifiés avec l’option <code class="docutils literal notranslate"><span class="pre">--dir-diff</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>difftool<span class="w"> </span>--dir-diff
+git<span class="w"> </span>difftool<span class="w"> </span>--dir-diff<span class="w"> </span>--staged
+</pre></div>
+</div>
+</div>
+</section>
+<section id="validation-des-modifications">
+<h2>Validation des modifications<a class="headerlink" href="#validation-des-modifications" title="Lien permanent vers cette rubrique"></a></h2>
+<p>Une fois que vous êtes satisfait des modifications que vous avez apportées à vos
+fichiers et que vous les avez ajoutées à l’index, vous pouvez utiliser la commande <code class="docutils literal notranslate"><span class="pre">commit</span></code> pour ajouter ces modifications dans votre dépôt local :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;un message explicatif&quot;</span>
+</pre></div>
+</div>
+<p>L’option <code class="docutils literal notranslate"><span class="pre">-m</span></code> permet d’associer un message explicatif à ce commit. Si
+vous n’ajoutez pas cette option, <a class="reference external" href="https://git-scm.com">Git</a> ouvrira un éditeur de texte pour
+vous permettre de saisir un message. La commande <code class="docutils literal notranslate"><span class="pre">commit</span></code> permet d’ajouter
+les modifications de l’index au dépôt local. L’index est ensuite vidé.</p>
+<p>Pour suivre l’historique des opérations de commit, vous pouvez utiliser
+la commande <code class="docutils literal notranslate"><span class="pre">log</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log
+</pre></div>
+</div>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">log</span></code> dispose de nombreuses options. Par exemple, vous pouvez
+passer <code class="docutils literal notranslate"><span class="pre">-</span></code> suivi d’un nombre pour indiquer le nombre maximum de commits que
+vous souhaitez afficher.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>-1
+</pre></div>
+</div>
+<p>La commande ci-dessus affiche le dernier commit.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference external" href="https://git-scm.com">Git</a> vous permet de créer des alias, c’est-à-dire de définir vos propres
+commandes personnalisées et de les sauvegarder dans la configuration de
+votre dépôt local ou même de votre configuration globale. Essayez :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>alias.lg<span class="w"> </span><span class="s2">&quot;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot;</span>
+</pre></div>
+</div>
+<p>Vous aurez ainsi accès à l’alias <code class="docutils literal notranslate"><span class="pre">lg</span></code>. En tapant :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>lg
+</pre></div>
+</div>
+<p><a class="reference external" href="https://git-scm.com">Git</a> vous affiche maintenant un historique moins verbeux et plus élégant.</p>
+</div>
+</section>
+<section id="utilisation-d-un-depot-distant">
+<h2>Utilisation d’un dépôt distant<a class="headerlink" href="#utilisation-d-un-depot-distant" title="Lien permanent vers cette rubrique"></a></h2>
+<p><a class="reference external" href="https://git-scm.com">Git</a> vous permet de connecter votre dépôt local à un ou plusieurs dépôts distants
+(<em>remote repositories</em>). Il devient possible de synchroniser votre dépôt local
+avec eux afin de partager vos modifications et d’intégrer les modifications
+effectuées par d’autres. <a class="reference external" href="https://git-scm.com">Git</a> est un système décentralisé, il ne présuppose pas
+l’existence d’un dépôt de référence.</p>
+<p>Dans le développement en entreprise, il existe néanmoins souvent un dépôt distant
+privilégié que l’on nomme par convention <em>origin</em>.</p>
+<p>Si vous créez un dépôt local par clonage (avec la commande <code class="docutils literal notranslate"><span class="pre">clone</span></code>) alors cette
+opération a pour résultat de créer un dépôt local rattaché au dépôt
+d’origine justement nommé <em>origin</em>.</p>
+<p>Si vous avez initialisé un dépôt local (avec la commande <code class="docutils literal notranslate"><span class="pre">init</span></code>) alors vous
+pouvez le rattacher à un dépôt distant à tout moment.</p>
+<p>Pour connaître la liste des dépôts distants associés à votre dépôt local, vous
+utilisez la commande :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>-v
+</pre></div>
+</div>
+<p>Pour associer un dépôt distant à votre dépôt local, vous utilisez la commande :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>&lt;nom<span class="w"> </span>du<span class="w"> </span>dépôt&gt;<span class="w"> </span>&lt;URL<span class="w"> </span>du<span class="w"> </span>dépôt&gt;
+</pre></div>
+</div>
+<p>Vous êtes libre de choisir le nom de dépôt que vous désirez. Par convention, on
+utilise <em>origin</em> pour désigner le dépôt distant qui est à l’origine du dépôt
+local.</p>
+<p>Pour synchroniser votre dépôt local et votre répertoire de travail et
+obtenir les derniers commits du dépôt distant, utilisez la commande :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>pull<span class="w"> </span>&lt;nom<span class="w"> </span>du<span class="w"> </span>dépôt<span class="w"> </span>distant&gt;<span class="w"> </span>master
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">fetch</span></code> permet de mettre à jour uniquement le dépôt local sans
+impacter le répertoire de travail :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>&lt;nom<span class="w"> </span>du<span class="w"> </span>dépôt<span class="w"> </span>distant&gt;<span class="w"> </span>master
+</pre></div>
+</div>
+</div>
+<p>Pour envoyer les commits de votre dépôt local dans le dépôt distant :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>&lt;nom<span class="w"> </span>du<span class="w"> </span>dépôt<span class="w"> </span>distant&gt;<span class="w"> </span>master
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Dans les commandes ci-dessus, <em>master</em> désigne le nom de la branche. Une
+branche correspond à une succession de commits. Nous reviendrons plus en
+détail sur les branches dans une section ultérieure. Retenez pour l’instant
+que, par convention, la branche par défaut est le plus souvent appelée
+<code class="docutils literal notranslate"><span class="pre">master</span></code> ou <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
+</div>
+<p>La difficulté inhérente à l’utilisation d’un dépôt distant provient des conflits
+qui peuvent survenir au moment de la synchronisation d’un dépôt local avec un
+dépôt distant.</p>
+<p>Imaginez que vous modifiiez localement un fichier pour ensuite valider un
+nouveau commit :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>monfichier.txt
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Une modification très importante&quot;</span>
+</pre></div>
+</div>
+<p>Imaginez qu’une autre personne de votre équipe fasse de même : elle modifie le
+même fichier et valide un nouveau commit. Vous disposez chacun d’un dépôt local
+différent.</p>
+<p>L’un d’entre vous va commencer par pousser son commit avec succès mais que
+va-t-il se passer quand le second va taper la commande :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>master
+</pre></div>
+</div>
+<p>Cette commande va échouer et <a class="reference external" href="https://git-scm.com">Git</a> va indiquer que le dépôt local n’est pas
+correctement synchronisé avec le dépôt distant. Cette situation, assez commune
+quand on travaille en équipe, pose possiblement de gros problèmes. En effet,
+puisque les deux commits portent sur le même fichier, il est possible que les mêmes
+lignes du fichier aient été modifiées de manière très différente. Dans ce cas,
+nous sommes face à un <strong>conflit</strong> de modification. <a class="reference external" href="https://git-scm.com">Git</a> est incapable de déduire
+quelle version est effectivement la bonne.</p>
+<p>Il est important de comprendre que les conflits de modification sont une
+conséquence d’un travail en équipe à partir d’un outil fonctionnant de
+manière décentralisée. Il est donc normal que des conflits apparaissent.
+Cependant, leur complexité, la manière de les résoudre et leur fréquence sont
+liées à la façon dont une équipe est organisée plus qu’à l’outil proprement dit.</p>
+<div class="admonition tip">
+<p class="admonition-title">Astuce</p>
+<p>Une bonne façon d’adresser les conflits est d’utiliser une branche pour isoler
+les commits problématiques pour pouvoir ensuite <em>rebaser</em> la branche. Il s’agit
+cependant d’une utilisation avancée de <a class="reference external" href="https://git-scm.com">Git</a> que nous aborderons ultérieurement.</p>
+</div>
+<p>À notre stade de maîtrise de <a class="reference external" href="https://git-scm.com">Git</a>, nous pouvons simplement tenter de mettre à
+jour le dépôt local en autorisant un <em>fast-forward</em>  avec l’option <code class="docutils literal notranslate"><span class="pre">--ff</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>pull<span class="w"> </span>--ff<span class="w"> </span>origin<span class="w"> </span>master
+</pre></div>
+</div>
+<p><em>fast-forward</em> signifie que <a class="reference external" href="https://git-scm.com">Git</a> va tenter d’ajouter les commits provenant
+du dépôt distant et ensuite de réappliquer vos propres commits. Si <a class="reference external" href="https://git-scm.com">Git</a> ne détecte
+aucun conflit, il va créer un commit supplémentaire : un commit de fusion (<em>merge</em>)
+pour indiquer qu’il y a eu une divergence à un moment donné entre un dépôt local
+et un dépôt distant.</p>
+<p>Une fois la resynchronisation faite, il est possible de refaire la commande
+<code class="docutils literal notranslate"><span class="pre">push</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>master
+</pre></div>
+</div>
+<p>En revanche, si <a class="reference external" href="https://git-scm.com">Git</a> détecte un conflit (par exemple si les mêmes lignes d’un
+fichier on été modifiées différemment), il interrompt immédiatement la fusion
+pour signaler un conflit. Il va falloir résoudre les conflits afin de pouvoir
+terminer la commande <code class="docutils literal notranslate"><span class="pre">pull</span></code>.</p>
+<p>Vous pouvez utiliser la commande <code class="docutils literal notranslate"><span class="pre">status</span></code> pour connaître à tout moment la liste
+des fichiers en conflit.</p>
+<p>Les conflits sont signalés à l’intérieur même des fichiers par des séparateurs:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+ma modification
+=======
+la modification faites par un autre
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; 3ab394fdc219fbf321453476922372dc34357555
+</pre></div>
+</div>
+<p>Une fois tous les conflits d’un fichier résolus, vous pouvez ajouter les modifications:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>&lt;chemin<span class="w"> </span>du<span class="w"> </span>fichier&gt;
+</pre></div>
+</div>
+<p>Lorsqu’il n’y a plus de conflit dans aucun fichier, vous pouvez valider la
+correction des conflits en créant un commit de fusion :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit
+</pre></div>
+</div>
+<p>Un fois la commande <code class="docutils literal notranslate"><span class="pre">pull</span></code> achevée avec succès, vous pourrez pousser vos propres
+modifications à partir de votre dépôt local à jour :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>master
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Rappelez-vous que, dans le cas d’une fusion, <a class="reference external" href="https://git-scm.com">Git</a> applique vos commits un à un.
+Vous pouvez donc vous retrouver dans une situation ou chacun de vos commits
+va produire un ou plusieurs conflits. Vous serez donc obligé de résoudre les
+conflits pour chacun d’entre eux.</p>
+</div>
+</section>
+<section id="exclusion-de-fichiers">
+<h2>Exclusion de fichiers<a class="headerlink" href="#exclusion-de-fichiers" title="Lien permanent vers cette rubrique"></a></h2>
+<p>La plupart du temps, il n’est pas souhaitable d’ajouter tous les fichiers d’un
+projet au dépôt <a class="reference external" href="https://git-scm.com">Git</a>. Certains fichiers résultent de la compilation ou de tout
+procédé de génération. Ils peuvent donc être facilement recréés automatiquement.
+Un dépôt <a class="reference external" href="https://git-scm.com">Git</a> n’oublie rien ! Même si vous supprimez un fichier, ce dernier est
+toujours présent dans des versions antérieures et donc il est toujours conservé
+quelque part dans le dépôt. Il est donc fortement conseillé de n’ajouter à un
+dépôt que les fichiers nécessaires. Vous pouvez créer un fichier <code class="file docutils literal notranslate"><span class="pre">.gitignore</span></code>
+dans votre répertoire de travail. Ce fichier permet de lister tous les
+fichiers et répertoires que <a class="reference external" href="https://git-scm.com">Git</a> doit totalement ignorer.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Exemple de contenu du fichier .gitignore pour un projet Java :</span><a class="headerlink" href="#id2" title="Lien permanent vers ce code"></a></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># fichiers temporaires pour Maven
+/target
+
+# fichiers de configuration Eclipse
+.classpath
+.project
+.settings
+
+# fichiers de configuration Itellij IDEA
+.idea
+*.iml
+</pre></div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Astuce</p>
+<ul class="simple">
+<li><p>Les lignes commençant par <code class="docutils literal notranslate"><span class="pre">#</span></code> sont ignorées (elles servent de commentaire).</p></li>
+<li><p>Vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">*</span></code> comme caractère générique.</p></li>
+<li><p>Vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">/</span></code> au début pour limiter l’exclusion à partir du
+répertoire contenant le fichier <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>.</p></li>
+<li><p>Vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">!</span></code> pour signaler les fichiers qu’il ne faut pas
+ignorer.</p></li>
+<li><p>Les instructions dans le fichier <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> sont lues et appliquées dans
+l’ordre de déclaration.</p></li>
+</ul>
+</div>
+<p>Le fichier <cite>.gitignore</cite> doit lui-même être ajouté dans le dépôt pour pouvoir
+être partagé. Ainsi, la configuration des fichiers ignorés est elle-même versionnée.</p>
+<p>Avec la commande <code class="docutils literal notranslate"><span class="pre">add</span></code>, il est toujours possible d’ajouter explicitement les
+modifications d’un fichier qui est normalement ignoré. Un fichier ignoré est
+simplement toujours traité par la commande <code class="docutils literal notranslate"><span class="pre">status</span></code> comme <code class="docutils literal notranslate"><span class="pre">untracked</span></code> et
+toutes les commandes <a class="reference external" href="https://git-scm.com">Git</a> de traitement par lot ne traiterons pas ce fichier.</p>
+<div class="admonition tip">
+<p class="admonition-title">Astuce</p>
+<p>Il existe un dépôt Git qui contient des exemples de fichiers <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>
+pour différents types de projet : <a class="reference external" href="https://github.com/github/gitignore">https://github.com/github/gitignore</a></p>
+</div>
+</section>
+<section id="les-etiquettes">
+<h2>Les étiquettes<a class="headerlink" href="#les-etiquettes" title="Lien permanent vers cette rubrique"></a></h2>
+<p>Il est possible de poser une étiquette (<em>tag</em>) à un moment de l’évolution des sources
+pour marquer un événement. La plupart du temps, il s’agit de tracer une nouvelle
+version d’une solution logicielle.</p>
+<p><a class="reference external" href="https://git-scm.com">Git</a> propose deux types d’étiquettes : l’étiquette annotée et l’étiquette
+légère (<em>annotated tag</em> et <em>lightweight tag</em>).</p>
+<p>L’étiquette annotée permet d’associer un message grâce à l’option <code class="docutils literal notranslate"><span class="pre">-m</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;commentaire&quot;</span><span class="w"> </span>&lt;étiquette&gt;
+</pre></div>
+</div>
+<p>Par exemple :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Livraison pour démo salon&quot;</span><span class="w"> </span>v6.3.0
+</pre></div>
+</div>
+<p>Si vous ne passez pas de commentaire, <a class="reference external" href="https://git-scm.com">Git</a> créera une étiquette légère, c’est-à-dire
+juste un pointeur sur le commit courant :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span>v6.3.0
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Astuce</p>
+<p>Pour forcer la création d’une étiquette annotée sans passer de commentaire,
+vous pouvez utiliser l’option <code class="docutils literal notranslate"><span class="pre">-a</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span>-a<span class="w"> </span>v6.3.0
+</pre></div>
+</div>
+</div>
+<p>Par défaut la commande <code class="docutils literal notranslate"><span class="pre">tag</span></code> crée une étiquette sur le commit courant de votre
+répertoire de travail. Mais vous pouvez passer un numéro de commit ou le nom d’une
+branche pour attacher votre étiquette à un autre point de votre dépôt local :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Livraison pour démo salon&quot;</span><span class="w"> </span>v6.3.0<span class="w"> </span>16f454
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>La différence entre étiquettes annotées et légères porte sur la façon dont
+l’information est stockée par <a class="reference external" href="https://git-scm.com">Git</a>. Dans le cas d’une étiquette annotée, il
+s’agit d’un objet spécifique stocké dans le dépôt avec ses méta-informations.
+Dans le cas d’une étiquette légère, il s’agit d’un simple libellé associé à
+un commit.</p>
+<p>À l’usage, les étiquettes légères devraient être réservées pour des situations
+temporaires et/ou des usages en local (on n’a pas vraiment l’intention de pousser
+l’étiquette sur un dépôt partagé). Mais il n’y a pas de règle stricte imposée
+par l’outil et chaque équipe est libre de faire une différence dans l’usage
+de l’un ou l’autre type d’étiquette.</p>
+</div>
+<p>Une étiquette est créée dans le dépôt local. Pour la partager, il faut ensuite
+pousser l’étiquette sur le dépôt distant avec la commande <code class="docutils literal notranslate"><span class="pre">push</span></code>.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>&lt;remote&gt;<span class="w"> </span>&lt;étiquette&gt;
+</pre></div>
+</div>
+<p>Par exemple :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v6.3.0
+</pre></div>
+</div>
+<p>Vous pouvez pousser toutes les étiquettes grâce à l’option <code class="docutils literal notranslate"><span class="pre">--tags</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>--tags<span class="w"> </span>origin
+</pre></div>
+</div>
+<p>Vous pouvez pousser uniquement les étiquettes annotées grâce à l’option
+<code class="docutils literal notranslate"><span class="pre">--follow-tags</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>--follow-tags<span class="w"> </span>origin
+</pre></div>
+</div>
+<p>Pour afficher la liste des étiquettes, utilisez simplement la commande <code class="docutils literal notranslate"><span class="pre">tag</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag
+</pre></div>
+</div>
+<p>Pour supprimer une étiquette localement, vous pouvez utiliser l’option <code class="docutils literal notranslate"><span class="pre">-d</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span>-d<span class="w"> </span>v6.3.0
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Avertissement</p>
+<p>Supprimer une étiquette dans le dépôt local n’a aucun impact sur un dépôt
+distant. Pour la supprimer complètement, vous devez également la supprimer
+explicitement de tous les dépôts distants avec une commande <code class="docutils literal notranslate"><span class="pre">push</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>:v6.3.0
+</pre></div>
+</div>
+<p>Notez le caractère <code class="docutils literal notranslate"><span class="pre">:</span></code> devant le nom de l’étiquette. Il s’agit d’une
+convention de la commande <code class="docutils literal notranslate"><span class="pre">push</span></code> pour dire que l’on souhaite supprimer.</p>
+</div>
+</section>
+<section id="les-branches">
+<h2>Les branches<a class="headerlink" href="#les-branches" title="Lien permanent vers cette rubrique"></a></h2>
+<p>Comme <a class="reference external" href="https://git-scm.com">Git</a> permet de gérer l’évolution d’une arborescence de fichiers, on comprend
+bien que chaque commit représente une modification de cette arborescence. La
+succession de commits permet de retracer une succession de modifications, une
+histoire linéaire que l’on peut consulter grâce à la commande <code class="docutils literal notranslate"><span class="pre">log</span></code>.</p>
+<p>Cette vision ne s’accorde malheureusement pas avec la réalité. Un même logiciel
+peut exister et être maintenu dans différentes versions en même temps. Quand on
+travaille en équipe sur la même base de code, l’histoire évolue en parallèle
+puisque chaque contributeur modifie en même temps le contenu de son dépôt local.
+Même lorsque je travaille seul, je souhaite souvent pouvoir isoler certaines
+modifications le temps que le code soit suffisamment mature pour être intégré
+dans le produit final. Par exemple, je peux travailler sur une nouvelle
+fonctionnalité et, avant que le code ne soit totalement terminé, je peux
+m’interrompre pour fixer un bug rapporté par les utilisateurs sur une autre
+partie du système. Même en étant seul à travailler sur la même base de code, je
+vais très vite être conduit à la modifier en parallèle.</p>
+<p>Pour gérer toutes ces situations, <a class="reference external" href="https://git-scm.com">Git</a> utilise des branches. Une branche permet
+de gérer une version alternative d’un dépôt.</p>
+<p>Une branche est identifiée par un nom et est formée d’une succession de commits.
+Une branche a un pointeur de tête appelé <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> qui désigne le commit courant
+(i.e. le commit le plus récent de la branche).</p>
+<p>Par défaut, les commit gérés par <a class="reference external" href="https://git-scm.com">Git</a> sont attachés à la branche <strong>master</strong>
+(ou <strong>main</strong>).</p>
+<p>Pour créer une branche, on utilise la commande <code class="docutils literal notranslate"><span class="pre">branch</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>&lt;nom<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>branche&gt;
+</pre></div>
+</div>
+<p>Par défaut, une branche a pour <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> la dernière modification commitée sur
+la branche courante. Cependant, on peut indiquer la position de <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> en
+passant à la commande <code class="docutils literal notranslate"><span class="pre">branch</span></code> un numéro de commit, le nom d’une autre branche
+ou une étiquette :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>ma_branche<span class="w"> </span>16f454
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Avec <a class="reference external" href="https://git-scm.com">Git</a>, vous ne pouvez pas travailler directement sur une branche
+distante. Avec les commandes <code class="docutils literal notranslate"><span class="pre">fetch</span></code> et <code class="docutils literal notranslate"><span class="pre">pull</span></code>, vous pouvez rapatrier
+dans votre dépôt local, une copie des branches distantes. Ensuite, vous
+pouvez créer une branche locale qui part du même <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> qu’une branche
+distante. Pour cela, vous indiquez à la commande <code class="docutils literal notranslate"><span class="pre">branch</span></code> le nom du
+dépôt distant et le nom de la branche :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>une_branche<span class="w"> </span>origin/une_branche
+</pre></div>
+</div>
+<p>Même si cela n’est pas obligatoire, il est fortement conseillé de nommer
+la branche locale comme la branche distante.</p>
+</div>
+<p>On peut ensuite naviguer de branche en branche avec la commande <code class="docutils literal notranslate"><span class="pre">switch</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>&lt;nom<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>branche&gt;
+</pre></div>
+</div>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">switch</span></code> met à jour le répertoire de travail pour refléter le
+contenu de la branche.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Historiquement, on peut utiliser la commande <code class="docutils literal notranslate"><span class="pre">checkout</span></code> comme un synonyme
+de la commande <code class="docutils literal notranslate"><span class="pre">switch</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>&lt;nom<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>branche&gt;
+</pre></div>
+</div>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">checkout</span></code> peut être utilisé comme un raccourci pour créer
+et changer de branche en même temps grâce à l’option <code class="docutils literal notranslate"><span class="pre">-b</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>une_branche<span class="w"> </span>origin/une_branche
+</pre></div>
+</div>
+</div>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">switch</span></code> échouera si vous avez des modifications non commitées
+dans votre répertoire de travail. Pour <a class="reference external" href="https://git-scm.com">Git</a>, la commande <code class="docutils literal notranslate"><span class="pre">switch</span></code> ne doit pas
+produire de conflit. Seuls les fichiers dans l’état <code class="docutils literal notranslate"><span class="pre">untracked</span></code> sur la branche
+de départ et sur la branche d’arrivée sont considérés comme sûrs : ils ne peuvent
+pas produire de conflit pour <a class="reference external" href="https://git-scm.com">Git</a>. Cela n’est cependant pas nécessairement vrai
+pour votre projet…</p>
+<div class="admonition tip">
+<p class="admonition-title">Astuce</p>
+<p>Si nécessaire, on peut mettre temporairement de côté des modifications non
+commitées du répertoire de travail grâce à la commande <code class="docutils literal notranslate"><span class="pre">stash</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>stash
+</pre></div>
+</div>
+<p>Il est ensuite possible d’utiliser la commande <code class="docutils literal notranslate"><span class="pre">switch</span></code>. Lorsque cela est
+nécessaire, on peut appliquer à nouveau les modifications mises de côté
+grâce à l’option <code class="docutils literal notranslate"><span class="pre">pop</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>stash<span class="w"> </span>pop
+</pre></div>
+</div>
+<p>Attention, cette dernière commande peut produire des conflits si les
+modifications ne sont pas appliquées exactement sur la même base de code que
+lors de leur mise à l’écart.</p>
+</div>
+<p>Pour lister les branches du dépôt local :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Astuce</p>
+<p>Pour lister les branches du dépôt local et celles des dépôts distants, on
+peut ajouter l’option <code class="docutils literal notranslate"><span class="pre">-a</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>-a
+</pre></div>
+</div>
+<p>Attention, cette commande ne se connecte pas aux dépôts distants, elle utilise
+l’information récupérée lors de la dernière exécution de la commande <code class="docutils literal notranslate"><span class="pre">pull</span></code>
+ou <code class="docutils literal notranslate"><span class="pre">fetch</span></code>.</p>
+</div>
+<p>Toutes les modifications faites et commitées sur une branche ne sont visibles
+que sur cette branche. Pour rapatrier tous les commits d’une branche vers la
+branche locale qui a servi de point de départ, on utilise la commande <code class="docutils literal notranslate"><span class="pre">merge</span></code>
+depuis la branche qui doit recevoir les nouveaux commits :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>&lt;nom<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>branche<span class="w"> </span>origine&gt;
+git<span class="w"> </span>merge<span class="w"> </span>&lt;nom<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>branche<span class="w"> </span>à<span class="w"> </span>rapatrier&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Attention, l’opération de merge peut entraîner des conflits qu’il faudra
+donc résoudre.</p>
+</div>
+<p>Si votre branche est simplement associée à une branche distante, vous ne devez
+pas la fusionner avec la branche distante. Vous devez poussez vos modifications
+grâce à la commande <code class="docutils literal notranslate"><span class="pre">push</span></code> en précisant le nom du dépôt distant et le nom de
+la branche sur ce dépôt :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>&lt;remote&gt;<span class="w"> </span>&lt;nom<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>branche&gt;
+</pre></div>
+</div>
+<p>Vous comprenez maintenant la raison de la commande vue précédemment :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>master
+</pre></div>
+</div>
+<p>Elle pousse les commits de la branche locale par défaut vers le dépôt distant
+(que l’on appelle par convention <code class="docutils literal notranslate"><span class="pre">origin</span></code>) sur la branche distante par défaut
+(qui se nomme par convention <code class="docutils literal notranslate"><span class="pre">master</span></code> ou <code class="docutils literal notranslate"><span class="pre">main</span></code>).</p>
+<div class="admonition tip">
+<p class="admonition-title">Astuce</p>
+<p>Vous pouvez préciser l’option <code class="docutils literal notranslate"><span class="pre">-u</span></code> ou <code class="docutils literal notranslate"><span class="pre">--set-upstream</span></code> pour associer
+votre branche à la branche distante.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>&lt;remote&gt;<span class="w"> </span>&lt;nom<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>branche&gt;
+</pre></div>
+</div>
+<p>Cela signifie que les appels ultérieurs à la commande <code class="docutils literal notranslate"><span class="pre">push</span></code> enverront par
+défaut les modifications de votre branche local sur la branche distante. Vous
+pourrez ainsi utiliser la commande <code class="docutils literal notranslate"><span class="pre">push</span></code> sans paramètre :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push
+</pre></div>
+</div>
+</div>
+<p>Pour supprimer une branche dans le dépôt local, il faut utiliser l’option <code class="docutils literal notranslate"><span class="pre">-d</span></code>
+depuis une autre branche :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>-d<span class="w"> </span>&lt;nom<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>branche&gt;
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Astuce</p>
+<p>Pour des raisons de sécurité, <a class="reference external" href="https://git-scm.com">Git</a> refusera de détruire une branche si
+tous ses commits ne sont pas présents dans une autre branche. Cela evite
+de perdre accidentellement des commits.</p>
+<p>Si vous souhaitez néanmoins détruire une branche dont tous les commits n’ont
+pas été fusionnés ou poussés sur une autre branche, il suffit d’utiliser
+l’option <code class="docutils literal notranslate"><span class="pre">-D</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>-D<span class="w"> </span>&lt;nom<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>branche&gt;
+</pre></div>
+</div>
+</div>
+<p>Pour supprimer une branche sur le dépôt distant, il faut utiliser la commande
+<code class="docutils literal notranslate"><span class="pre">push</span></code> en ajoutant <code class="docutils literal notranslate"><span class="pre">:</span></code> devant le nom de la branche.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>&lt;remote&gt;<span class="w"> </span>:&lt;nom<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>branche&gt;
+</pre></div>
+</div>
+<section id="revoir-le-contenu-d-une-branche">
+<h3>Revoir le contenu d’une branche<a class="headerlink" href="#revoir-le-contenu-d-une-branche" title="Lien permanent vers cette rubrique"></a></h3>
+<p>Parfois, il est utile de modifier l’historique d’une branche, c’est-à-dire de
+revoir ses commits.</p>
+<p>Le cas le plus simple est lorsqu’on veut supprimer un ou plusieurs des derniers
+commits d’une branche. Cela peut arriver si nous avons accidentellement valider
+des commits. La commande <code class="docutils literal notranslate"><span class="pre">reset</span></code> permet de modifier la position du pointeur
+<code class="docutils literal notranslate"><span class="pre">HEAD</span></code> de la branche courante.</p>
+<p>Imaginez que l’historique d’une branche soit le suivant :</p>
+<ul class="simple">
+<li><p>f09392e - (HEAD -&gt; master) oups erreur (il y a 1 minute) &lt;David Gayerie&gt;</p></li>
+<li><p>e93eea4 - nouvelle fonctionnalité 3 (il y a 3 heures) &lt;David Gayerie&gt;</p></li>
+<li><p>0eb7202 - nouvelle fonctionnalité 2 (il y a 6 heures) &lt;David Gayerie&gt;</p></li>
+<li><p>e264629 - nouvelle fonctionnalité 1 (il y a 1 jour) &lt;David Gayerie&gt;</p></li>
+</ul>
+<p>Le commit <code class="docutils literal notranslate"><span class="pre">f09392e</span></code> a été fait par erreur sur la branche et on souhaite le
+faire disparaître de l’historique. Dans ce cas, je peux utiliser la commande
+<code class="docutils literal notranslate"><span class="pre">reset</span></code> en précisant le nouveau commit sur lequel doit pointer <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>e93eea4
+</pre></div>
+</div>
+<p>Le nouvel historique de la branche est maintenant :</p>
+<ul class="simple">
+<li><p>e93eea4 - (HEAD -&gt; master) nouvelle fonctionnalité 3 (il y a 3 heures) &lt;David Gayerie&gt;</p></li>
+<li><p>0eb7202 - nouvelle fonctionnalité 2 (il y a 6 heures) &lt;David Gayerie&gt;</p></li>
+<li><p>e264629 - nouvelle fonctionnalité 1 (il y a 1 jour) &lt;David Gayerie&gt;</p></li>
+</ul>
+<p>Il est également possible de déplacer le pointeur <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> relativement à sa
+position avec la commande :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>HEAD^
+</pre></div>
+</div>
+<p>Le caractère <code class="docutils literal notranslate"><span class="pre">^</span></code> signifie déplacer le pointeur <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> d’une position vers le
+haut dans l’historique des commits, donc sur le commit précédent.</p>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">reset</span></code> possède 3 modes : <em>soft</em>, <em>mixed</em> et <em>hard</em> que l’on peut
+spécifier respectivement avec les options <code class="docutils literal notranslate"><span class="pre">--soft</span></code>, <code class="docutils literal notranslate"><span class="pre">--mixed</span></code>, <code class="docutils literal notranslate"><span class="pre">--hard</span></code>.</p>
+<dl class="simple">
+<dt>soft</dt><dd><p>Un <code class="docutils literal notranslate"><span class="pre">reset</span></code> avec ce mode modifie la position du pointeur <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> mais toutes
+les modifications annulées sont mises dans l’index (i.e la <em>staging area</em>)
+comme si elles étaient prêtes à être commitées.</p>
+</dd>
+<dt>mixed (le mode par défaut)</dt><dd><p>Un <code class="docutils literal notranslate"><span class="pre">reset</span></code> avec ce mode modifie la position du pointeur <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> mais toutes
+les modifications annulées sont conservées dans le répertoire de travail
+comme si vous veniez de réaliser ces modifications.</p>
+</dd>
+<dt>hard</dt><dd><p>Un <code class="docutils literal notranslate"><span class="pre">reset</span></code> avec ce mode modifie la position du pointeur <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> mais toutes
+les modifications annulées sont définitivement supprimées.</p>
+</dd>
+</dl>
+<div class="admonition tip">
+<p class="admonition-title">Astuce</p>
+<p>Même avec un <code class="docutils literal notranslate"><span class="pre">reset</span> <span class="pre">--hard</span></code> les commits ne sont pas instantanément détruits
+et restent dans le dépôt. Ils ne sont juste plus accessibles à partir de
+la branche. Si vous avez conservé le numéro de commit, vous pouvez très
+bien revenir en arrière :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>f09392e
+</pre></div>
+</div>
+</div>
+<p>Si la branche est associée à une branche distante, un <code class="docutils literal notranslate"><span class="pre">reset</span></code> peut introduire
+une incohérence entre la version locale et la version distante de la branche si
+la commande fait disparaître des commits qui avaient déjà été poussés. Dans ce
+cas, <a class="reference external" href="https://git-scm.com">Git</a> refusera catégoriquement de réaliser la commande <code class="docutils literal notranslate"><span class="pre">push</span></code> sauf si vous
+ajoutez l’option <code class="docutils literal notranslate"><span class="pre">-f</span></code> (<em>push force</em>) pour forcer la propagation de vos
+modifications dans le dépôt distant.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>-f
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Avertissement</p>
+<p>Pour éviter la corruption des données, la plupart des gestionnaires de dépôts
+distants comme <a class="reference external" href="https://gitlab.com">GitLab</a> ou <a class="reference external" href="https://github.com">GitHub</a> protègent la branche principale d’un dépôt
+(habituellement nommée <em>master</em> ou <em>main</em>). Cela signifie qu’ils empêchent
+de réaliser un <em>push force</em> sur cette branche. Il n’est donc pas possible
+de revoir l’historique d’une branche principale d’un dépôt distant.</p>
+</div>
+<p>Si une commande <code class="docutils literal notranslate"><span class="pre">reset</span></code> vous paraît trop ou compliquée impossible dans votre</p>
+<p>situation, vous pouvez tout de même utiliser la commande <code class="docutils literal notranslate"><span class="pre">revert</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>revert<span class="w"> </span>&lt;numéro<span class="w"> </span>de<span class="w"> </span>commit&gt;
+</pre></div>
+</div>
+<p>Cette commande produit un nouveau commit en appliquant les modifications inverses
+du commit spécifié en argument.</p>
+<p>Si vous appliquez la commande <code class="docutils literal notranslate"><span class="pre">revert</span></code> sur le dernier commit d’une branche
+vous êtes sûr d’annuler les dernières modifications mais vous conserverez une
+trace dans l’historique de votre dépôt :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>revert<span class="w"> </span>f09392e
+</pre></div>
+</div>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">revert</span></code> va produire l’historique des commits suivants :</p>
+<ul class="simple">
+<li><p>584d80e - (HEAD -&gt; master) Revert « oups erreur » (il y a 10 secondes) &lt;David Gayerie&gt;</p></li>
+<li><p>f09392e - oups erreur (il y a 2 minutes) &lt;David Gayerie&gt;</p></li>
+<li><p>e93eea4 - nouvelle fonctionnalité 3 (il y a 3 heures) &lt;David Gayerie&gt;</p></li>
+<li><p>0eb7202 - nouvelle fonctionnalité 2 (il y a 6 heures) &lt;David Gayerie&gt;</p></li>
+<li><p>e264629 - nouvelle fonctionnalité 1 (il y a 1 jour) &lt;David Gayerie&gt;</p></li>
+</ul>
+</section>
+<section id="deplacer-le-point-de-depart-d-une-branche">
+<h3>Déplacer le point de départ d’une branche<a class="headerlink" href="#deplacer-le-point-de-depart-d-une-branche" title="Lien permanent vers cette rubrique"></a></h3>
+<p>Il est possible de déplacer l’origine d’une branche avec la commande <code class="docutils literal notranslate"><span class="pre">rebase</span></code>.
+Cette opération peut être très commune lorsqu’on travail en équipe sur la même
+base de code. Souvent, chaque développeur va créer sa propre branche pour réaliser
+les modifications nécessaires. Lorsque son travail est terminé, il va fusionner
+les modifications de sa branche sur la branche principale. Mais, pendant ce temps,
+d’autres développeurs ont pu faire la même opération. Donc la branche principale
+est en avance de plusieurs commits par rapport au moment où la branche du
+développeur a été créée.</p>
+<p>Il est toujours possible de fusionner la branche du développeur sur la branche
+principale avec la commande <code class="docutils literal notranslate"><span class="pre">merge</span></code> et de fixer les conflits éventuels.
+L’inconvénient de cette approche est que la résolution des conflits se fait
+directement sur la branche principale après fusion. Il n’est donc pas conseillé
+à d’autres développeurs de faire la même opération en même temps car cela
+signifierait que plusieurs développeurs tenteraient chacun de leur côté de fixer
+des bugs sur la branche principale en introduisant de nouveaux commits en parallèle.</p>
+<p>En fait, il est plus intéressant de résoudre les conflits éventuels sur la branche
+du développeur pour ensuite réaliser la fusion sur la branche principale en étant
+sûr qu’aucun conflit ne se produira. Pour cela, il faut faire une commande
+<code class="docutils literal notranslate"><span class="pre">rebase</span></code>, c’est-à-dire déplacer le point de départ de la branche du développeur
+sur le dernier commit de la branche principale comme s’il venait de réaliser ses
+modifications à l’instant. En étant placé sur la branche de développement, je
+peux exécuter les commandes suivantes :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>origin<span class="w"> </span>master:master
+git<span class="w"> </span>rebase<span class="w"> </span>master
+</pre></div>
+</div>
+<p>La première commande récupère les derniers commits de la branche <code class="docutils literal notranslate"><span class="pre">master</span></code>
+depuis le dépôt distant et les applique dans mon dépôt local sur la branche <code class="docutils literal notranslate"><span class="pre">master</span></code>.</p>
+<p>La seconde commande change le point de départ de la branche courante pour qu’elle
+commence au dernier commit de la branche <code class="docutils literal notranslate"><span class="pre">master</span></code> dans mon dépôt local (que
+je viens de mettre à jour).</p>
+<p>Concrètement, <a class="reference external" href="https://git-scm.com">Git</a> va créé de nouveaux commits appliquant les mêmes modifications
+les unes après les autres à partir de ce nouveau départ de branche.</p>
+<p>Si un conflit survient, la commande <code class="docutils literal notranslate"><span class="pre">rebase</span></code> s’interrompt et <a class="reference external" href="https://git-scm.com">Git</a> me demande
+de le fixer. Ensuite, il suffit que j’ajoute mes modifications avec la commande
+<code class="docutils literal notranslate"><span class="pre">add</span></code> et que je relance la commande <code class="docutils literal notranslate"><span class="pre">rebase</span></code> à l’endroit où elle s’est
+interrompue :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--continue
+</pre></div>
+</div>
+<p>À tout moment avant la fin du <code class="docutils literal notranslate"><span class="pre">rebase</span></code>, je peux l’annuler avec la commande :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--abort
+</pre></div>
+</div>
+<p>Si la commande <code class="docutils literal notranslate"><span class="pre">rebase</span></code> se termine avec succès alors <a class="reference external" href="https://git-scm.com">Git</a> a produit un nouveau
+commit pour chacun des anciens. Du point de vue du code, cela signifie que j’obtiens
+les mêmes modifications. Par contre, la branche n’a plus rien à voir avec son
+état antérieur puisque les commits ont de nouveaux numéros.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Si la branche est associée à une branche distante, <a class="reference external" href="https://git-scm.com">Git</a> refusera
+catégoriquement de réaliser la commande <code class="docutils literal notranslate"><span class="pre">push</span></code> sauf si vous ajoutez
+l’option <code class="docutils literal notranslate"><span class="pre">-f</span></code> (<em>push force</em>) pour forcer la propagation de vos
+modifications dans le dépôt distant.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>-f
+</pre></div>
+</div>
+</div>
+<p>Une fois la commande <code class="docutils literal notranslate"><span class="pre">rebase</span></code> réalisée, la branche démarre à partir du dernier
+commit de la branche parente. Pour notre exemple, cela signifie que nous pouvons
+réaliser une fusion de la branche du développeur en étant sûr que cela ne
+produire aucun conflit :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>master
+git<span class="w"> </span>merge<span class="w"> </span>branche_dev
+git<span class="w"> </span>push
+</pre></div>
+</div>
+<p>Si la branche n’est plus utile, on peut ensuite la détruire :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>-d<span class="w"> </span>branche_dev
+</pre></div>
+</div>
+</section>
+<section id="reecrire-le-contenu-d-une-branche">
+<h3>Réécrire le contenu d’une branche<a class="headerlink" href="#reecrire-le-contenu-d-une-branche" title="Lien permanent vers cette rubrique"></a></h3>
+<p>Il existe également un mode interactif pour la commande <code class="docutils literal notranslate"><span class="pre">rebase</span></code>. Ce mode
+très puissant permet :</p>
+<ul class="simple">
+<li><p>de réorganiser l’ordre des commits</p></li>
+<li><p>de changer le contenu (<em>edit</em>) d’un commit</p></li>
+<li><p>de changer le commentaire (<em>reword</em>) d’un commit</p></li>
+<li><p>de fusionner (<em>squash</em>) plusieurs commits ensemble pour n’en faire qu’un seul</p></li>
+<li><p>d’annuler certains commits (<em>drop</em>)</p></li>
+</ul>
+<p>Le mode interactif de la commande <code class="docutils literal notranslate"><span class="pre">rebase</span></code> est activé avec l’option <code class="docutils literal notranslate"><span class="pre">-i</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>-i<span class="w"> </span>&lt;nom<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>branche,<span class="w"> </span>du<span class="w"> </span>commit<span class="w"> </span>ou<span class="w"> </span>de<span class="w"> </span>l<span class="se">\&#39;</span>étiquette<span class="w"> </span>servant<span class="w"> </span>de<span class="w"> </span>point<span class="w"> </span>de<span class="w"> </span>départ&gt;
+</pre></div>
+</div>
+<p>Ce mode fait apparaître un éditeur de texte avec la liste des commits et
+les actions à appliquer à chacun d’entre eux. L’action par défaut est <code class="docutils literal notranslate"><span class="pre">pick</span></code>
+(c’est-à-dire que le commit doit être conservé tel quel). Il est possible de changer
+l’ordre des commits et de changer l’action à appliquer sur chacun d’entre-eux.
+Lorsque que l’éditeur est fermé, la commande <code class="docutils literal notranslate"><span class="pre">rebase</span></code> commence à s’appliquer.</p>
+<p>Comme pour le mode par défaut, si un conflit survient, la commande s’interrompt
+et je dois résoudre le conflit, ajouter mes modifications avec la commande <code class="docutils literal notranslate"><span class="pre">add</span></code>
+et poursuivre la commande <code class="docutils literal notranslate"><span class="pre">rebase</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--continue
+</pre></div>
+</div>
+<p>Le mode interactif va également créer une nouvelle succession de commits. Si je
+veux pousser ces modifications sur une branche déjà existante d’un dépôt distant,
+je dois faire un <code class="docutils literal notranslate"><span class="pre">push</span> <span class="pre">force</span></code> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>-f
+</pre></div>
+</div>
+<p>Le mode interactif de la commande <code class="docutils literal notranslate"><span class="pre">rebase</span></code> est utilisé couramment pour
+nettoyer une branche avant sa fusion définitive sur la branche principale.</p>
+<div class="admonition warning">
+<p class="admonition-title">Avertissement</p>
+<p>De trop nombreuses modifications lors d’un <code class="docutils literal notranslate"><span class="pre">rebase</span></code> interactif peuvent
+produire de multiples conflits. Il est conseillé de procéder pas à pas en
+réalisant plusieurs <code class="docutils literal notranslate"><span class="pre">rebases</span></code> interactifs les uns après les autres pour
+garder une maîtrise des modifications apportées.</p>
+</div>
+</section>
+</section>
+<section id="la-recherche-par-dichotomie">
+<h2>La recherche par dichotomie<a class="headerlink" href="#la-recherche-par-dichotomie" title="Lien permanent vers cette rubrique"></a></h2>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">log</span></code> n’est pas toujours suffisante pour comprendre l’historique
+des évolutions d’une base de code. Lorsqu’un bug est détecté, il n’est pas
+toujours facile de savoir quand il a été introduit. La commande <code class="docutils literal notranslate"><span class="pre">bisect</span></code>
+permet de nous aider à naviguer dans l’historique des commits pour identifier
+une modification introduite dans la base de code.</p>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">bisect</span></code> part du principe qu’il y a des <em>bons</em> commits et
+des <em>mauvais</em> commits. À un moment, les commits étaient <em>bons</em> et puis on est
+passé à une situation où ils sont devenus <em>mauvais</em> (ce qui correspond au
+moment de l’introduction d’un bug par exemple).</p>
+<p>Sans la commande <code class="docutils literal notranslate"><span class="pre">bisect</span></code>, nous pouvons remonter les commits un à un jusqu’à
+retrouver le point où le bug n’est plus présent. Il est très facile de passer
+d’un commit à l’autre avec la commande <code class="docutils literal notranslate"><span class="pre">checkout</span></code>.</p>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">bisect</span></code> va permettre d’automatiser le processus en gérant pour
+nous une recherche dichotomique. On donne à la commande le premier commit que
+l’on sait <em>bon</em> et le premier commit que l’on sait <em>mauvais</em>. La commande
+va se placer sur le commit itermédiaire et nous demander s’il s’agit d’un
+commit <em>bon</em> ou <em>mauvais</em>. En fonction de notre réponse, la recherche dichotomique
+va continuer sur la première moitié de la liste des commits ou sur la seconde
+moitié.</p>
+<p>On commence par démarrer une recherche dichotomique :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>start
+</pre></div>
+</div>
+<p>On indique le premier numéro de commit que l’on sait <em>bon</em> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>good<span class="w"> </span>&lt;numéro<span class="w"> </span>de<span class="w"> </span>commit&gt;
+</pre></div>
+</div>
+<p>On indique le premier numéro de commit que l’on sait <em>mauvais</em> :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>bad<span class="w"> </span>&lt;numéro<span class="w"> </span>de<span class="w"> </span>commit&gt;
+</pre></div>
+</div>
+<p>À partir de là, la commande <code class="docutils literal notranslate"><span class="pre">bisect</span></code> va démarrer la recherche dichotomique.
+À chaque étape, à nous de vérifier si le commit est <em>bon</em> ou non (par exemple
+en regardant si le bug est présent en exécutant le code ou les tests automatisés).</p>
+<p>Il suffit ensuite d’indiquer soit :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>good
+</pre></div>
+</div>
+<p>soit :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>bad
+</pre></div>
+</div>
+<p>Une fois le commit identifié, on peut terminer la commande <code class="docutils literal notranslate"><span class="pre">bisect</span></code> avec :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>reset
+</pre></div>
+</div>
+<p>Cela aura pour effet de nous ramener à notre point de départ juste avant de
+lancer la commande <code class="docutils literal notranslate"><span class="pre">bisect</span> <span class="pre">start</span></code>.</p>
+</section>
+<section id="references">
+<h2>Références<a class="headerlink" href="#references" title="Lien permanent vers cette rubrique"></a></h2>
+<ul class="simple">
+<li><p>Documentation officielle : <a class="reference external" href="https://git-scm.com/doc">https://git-scm.com/doc</a></p></li>
+<li><p>Pro Git : <a class="reference external" href="https://git-scm.com/book/en/v2">https://git-scm.com/book/en/v2</a></p></li>
+<li><p>Le tutoriel de GitHub :
+<a class="reference external" href="https://guides.github.com/activities/hello-world/">https://guides.github.com/activities/hello-world/</a></p></li>
+<li><p>Learn Git Branches (tutoriel visuel pour comprendre les branches) : <a class="reference external" href="https://learngitbranching.js.org/">https://learngitbranching.js.org/</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pied de page">
+        <a href="../index.html" class="btn btn-neutral float-left" title="m2i - Git" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Précédent</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  
+  <div  role="contentinfo">
+    <p>
+    Par David Gayerie
+    - <script>!function(){function e(e){return e.replace(/[a-zA-Z]/g,function(e){return String.fromCharCode((e<="Z"?90:122)>=(e=e.charCodeAt(0)+13)?e:e-26)})}!function(e){document.write("<a href='mailto:"+e+"'>"+e+"</a>")}(e("qnivq@tnlrevr.qri"))}();</script>
+    </p>
+    <p>Ce support est disponible en téléchargement au format <a class="reference download" href="https://github.com/spoonless/formation-m2i-git/archive/gh-pages.zip">HTML</a>
+    </p>
+    <p class="copyright">
+      <a class="reference external image-reference" href="https://creativecommons.org/licenses/by-sa/3.0/fr/"><img alt="Licence Creative Commons" src="https://i.creativecommons.org/l/by-sa/3.0/fr/88x31.png" /></a>
+      Cette œuvre est mise à disposition selon les termes de la <a class="reference external" href="https://creativecommons.org/licenses/by-sa/3.0/fr/">Licence Creative Commons Attribution</a> -  Partage dans les Mêmes Conditions 3.0 France
+    </p>
+  </div>
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>
